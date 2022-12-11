@@ -1,16 +1,19 @@
 class ApiFeatures {
   constructor(query, queryParams) {
-    this.query = query,
-    this.queryParams = queryParams
+    this.query = query;
+    this.queryParams = queryParams;
   }
 
   filter() {
-    const queryParamsCopy = {...this.queryParams};
+    const queryParamsCopy = { ...this.queryParams };
     const excludedParams = ['page', 'sort', 'limit', 'fields'];
-    excludedParams.forEach(param => delete queryParamsCopy[param]);
+    excludedParams.forEach((param) => delete queryParamsCopy[param]);
 
     let queryParamsString = JSON.stringify(queryParamsCopy);
-    queryParamsString = queryParamsString.replace(/\b(gte|gt|lte|lt)\b/g, match => `$${match}`);
+    queryParamsString = queryParamsString.replace(
+      /\b(gte|gt|lte|lt)\b/g,
+      (match) => `$${match}`
+    );
 
     this.query = this.query.find(JSON.parse(queryParamsString));
 
